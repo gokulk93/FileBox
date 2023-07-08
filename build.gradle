@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.13'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.tectot'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '11'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation platform('software.amazon.awssdk:bom:2.20.99')
+	implementation 'software.amazon.awssdk:s3'
+	implementation 'software.amazon.awssdk:sso'
+	implementation 'software.amazon.awssdk:ssooidc'
+	implementation 'software.amazon.awssdk:url-connection-client'
+
+
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
