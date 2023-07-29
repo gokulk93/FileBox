@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>FileBox</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/dashboard.css}" />
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/dashboard}">Login</a></li>
+            <!-- Display the Admin & Register user link if the user has the "admin" role -->
+            <li th:if="${isAdmin}">
+                <a th:href="@{/users/register}">Register User</a>
+            </li>
+            <li th:if="${isAdmin}">
+                <a th:href="@{/admin}">Admin</a>
+            </li>
+
+        </ul>
+    </nav>
+    <h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">User</span>!</h1>
+    <h1>Welcome to the Dashboard!</h1>
+
+
+    <ul>
+        <li th:each="file : ${files}">
+            <a th:href="@{'/dashboard/download/' + ${file.key()}}" th:text="'Download File: ' + ${file.key()}"></a>
+        </li>
+    </ul>
+
+
+</body>
+</html>

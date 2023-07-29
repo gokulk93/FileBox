@@ -1,2 +1,33 @@
 server:
   port: 5555
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tectot_dev?currentSchema=filebox
+    username: postgres
+    password: password
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  thymeleaf:
+    mode=STRICT
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+filebox:
+  environment: dev
+  aws:
+    endpoint: http://localhost:4566
+    access-key: admin
+    secret: admin
+    region: us-east-1
+
+

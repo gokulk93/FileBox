@@ -16,7 +16,7 @@ Remove the bucket
     aws --endpoint-url=http://localhost:4566 s3 rb s3://mytestbucket
 
 View objects inside s3 bucket
-    aws --endpoint-url=http://localhost:4566 s3 ls s3://bucket-from-java2
+    aws --endpoint-url=http://localhost:4566 s3 ls s3://mytestbucket
 Copy files to local
 aws --endpoint-url=http://localhost:4566 s3 cp s3://bucket-from-java1/test-key-1.txt /Users/gkumar591/Downloads/files/
 

@@ -18,15 +18,17 @@ public class S3BucketOpsController {
     private S3Client s3Client;
 
 
+    // Upload a file to S3
     @PostMapping(value = "upload", consumes = "application/json")
     public String uploadFile(@RequestParam(name = "bucketName") String bucketName){
         try {
             s3BucketOpsService.uploadFile(s3Client, bucketName, "file.txt");
         }catch (IOException e){
-            return "some excception occured";
+            return "some exception occurred";
         }
         return "File uploaded successfully";
     }
+
 
     @GetMapping(value = "download", consumes = "application/json")
     public String downloadFile(@RequestParam(name = "bucketName") String bucketName){

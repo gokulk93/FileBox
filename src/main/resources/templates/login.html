@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+  <title>FileBox</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/styles/login.css}" />
+</head>
+<body>
+
+<div class="topnav">
+  <a class="active" href="/index">Home</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<h2>Login Form</h2>
+
+<div th:if="${param.error}" style="color: #FF0000">
+  Invalid username and password.
+</div>
+
+<div th:if="${param.logout}" style="color: #04AA6D">
+  You have been logged out.
+</div>
+
+<form th:action="@{/login}" method="post">
+  <div class="container">
+    <div class="row">
+      <div class="col-25">
+        <label for="username">Username</label>
+      </div>
+      <div class="col-75">
+        <input type="text" placeholder="Enter Username" name="username" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="password">Password</label>
+      </div>
+      <div class="col-75">
+        <input type="password" placeholder="Enter Password" name="password" required>
+      </div>
+    </div>
+    <div class="row">
+      <button type="submit">Login</button>
+    </div>
+    <div class ="row">
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="reset" class="cancelbtn">Cancel</button>
+      <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+</form>
+
+
+</body>
+</html>

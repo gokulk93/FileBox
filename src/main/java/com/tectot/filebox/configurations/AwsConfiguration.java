@@ -1,34 +1,47 @@
 package com.tectot.filebox.configurations;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.http.SdkHttpClient;
-
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import software.amazon.awssdk.utils.AttributeMap;
 
+import javax.annotation.PostConstruct;
 import java.net.URI;
-import java.time.Duration;
 
 @Configuration
-public class AppConfiguration {
+public class AwsConfiguration {
+    private FileBoxConfig fileBoxConfig;
+    private String AWS_LOCALSTACK_ENDPOINT;
+    private String AWS_ACCESS_KEY;
+    private String AWS_SECRET;
+    private Region AWS_REGION;
 
-    private final String AWS_LOCALSTACK_ENDPOINT = "http://localhost:4566";
+    private AwsBasicCredentials AWS_CREDENTIALS;
 
-    private ProfileCredentialsProvider credentialsProvider = ProfileCredentialsProvider
-            .create("localstack");
 
-    AwsBasicCredentials credentials = AwsBasicCredentials
-            .create("admin", "admin"); // Replace with your LocalStack credentials
+    @Autowired
+    public AwsConfiguration(FileBoxConfig fileBoxConfig) {
+        this.fileBoxConfig = fileBoxConfig;
+    }
 
-    private Region region = Region.US_EAST_1;
+    @PostConstruct
+    private void init() {
+        AWS_LOCALSTACK_ENDPOINT = fileBoxConfig.getAws().getEndpoint();
+        AWS_ACCESS_KEY = fileBoxConfig.getAws().getAccessKey();
+        AWS_SECRET = fileBoxConfig.getAws().getSecret();
+        AWS_REGION = Region.of(fileBoxConfig.getAws().getRegion());
+
+        AWS_CREDENTIALS = AwsBasicCredentials
+                .create(AWS_ACCESS_KEY, AWS_SECRET);
+    }
 
     @Bean
     public S3Client getS3ClientLocal(){
@@ -36,21 +49,11 @@ public class AppConfiguration {
                 .buildWithDefaults(AttributeMap.empty());
 
         return S3Client.builder()
-                .region(region)
+                .region(AWS_REGION)
                 .endpointOverride(URI.create(AWS_LOCALSTACK_ENDPOINT))
-                .credentialsProvider(StaticCredentialsProvider.create(credentials))
+                .credentialsProvider(StaticCredentialsProvider.create(AWS_CREDENTIALS))
                 .httpClient(httpClient)
                 .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(true).build())
                 .build();
     }
-
-//    @Bean
-//    public S3Client getS3ClientLocal(){
-//        return S3Client.builder()
-//                .region(region)
-//                .endpointOverride(URI.create(AWS_LOCALSTACK_ENDPOINT))
-//                .credentialsProvider(credentialsProvider)
-//                .build();
-//
-//    }
 }
