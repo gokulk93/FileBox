@@ -18,17 +18,16 @@
 <div style="color: green;" th:if="${message}">
     <p th:text="${message}"></p>
 </div>
-<form action="#" method="post" style="border:1px solid #ccc" th:action="@{/users/createUser}" th:object="${userDTO}">
+<form action="#" method="post" style="border:1px solid #ccc" th:action="@{/users/register}" th:object="${userDTO}">
     <div class="container">
-
 
         <div class="row">
             <div class="col-25">
-                <label for="userName">Name:</label>
+                <label for="name">Name:</label>
             </div>
             <div class="col-75">
-                <input id="userName" required="required" th:field="*{userName}" type="text"/>
-                <span th:errors="*{userName}" th:if="${#fields.hasErrors('userName')}"></span>
+                <input id="name" required="required" th:field="*{name}" type="text"/>
+                <span th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></span>
             </div>
         </div>
 
@@ -41,6 +40,12 @@
         <input id="password" required="required" th:field="*{password}" type="password"/>
         <span th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></span>
         <br/>
+
+        <label for="organisationId">Select Organization:</label>
+        <select id="organisationId" name="organisationId" required>
+            <option value="" disabled selected>Select an organization</option>
+            <option th:each="org : ${organisations}" th:value="${org.id}" th:text="${org.name}"></option>
+        </select><br><br>
 
         <label for="userRole">Role:</label>
         <input id="userRole" required="required" th:field="*{userRole}" type="text"/>

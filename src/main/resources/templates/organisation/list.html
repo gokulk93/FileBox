@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FileBox</title>
+</head>
+<body>
+    
+    <div class="topnav">
+        <a class="active" href="/index">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+    
+    <h2>Organisation List</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        <tr th:each="organisation : ${organisations}">
+            <td th:text="${organisation.id}"></td>
+            <td th:text="${organisation.name}"></td>
+            <td>
+                <a th:href="@{/organisations/edit/{id}(id=${organisation.id})}">Edit</a>
+                <a onclick="return confirm('Are you sure you want to delete?')"
+                   th:href="@{/organisations/delete/{id}(id=${organisation.id})}">Delete</a>
+            </td>
+        </tr>
+    </table>
+    <a href="/organisations/add">Add Organisation</a>
+
+</body>
+</html>

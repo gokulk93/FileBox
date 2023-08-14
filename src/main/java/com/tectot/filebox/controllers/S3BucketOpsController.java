@@ -17,7 +17,6 @@ public class S3BucketOpsController {
     @Autowired
     private S3Client s3Client;
 
-
     // Upload a file to S3
     @PostMapping(value = "upload", consumes = "application/json")
     public String uploadFile(@RequestParam(name = "bucketName") String bucketName){

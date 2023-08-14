@@ -1,6 +1,8 @@
 package com.tectot.filebox.controllers;
 
+import com.tectot.filebox.dtos.OrganisationDTO;
 import com.tectot.filebox.dtos.UserDTO;
+import com.tectot.filebox.services.OrganisationService;
 import com.tectot.filebox.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,10 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
 
+    @Autowired
+    private OrganisationService organisationService;
+
+
     private final UserService userService;
 
     @Autowired
@@ -31,7 +37,9 @@ public class UserController {
     @GetMapping("/register")
     public ModelAndView showRegistrationForm(Model model){
         ModelAndView modelAndView = new ModelAndView("register");
+        List<OrganisationDTO> organisations = organisationService.findAllOrgs();
         modelAndView.addObject("userDTO", new UserDTO());
+        modelAndView.addObject("organisations", organisations);
         return modelAndView;
     }
 
