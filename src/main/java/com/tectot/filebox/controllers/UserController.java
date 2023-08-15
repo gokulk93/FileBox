@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public ModelAndView showRegistrationForm(@RequestParam String message, Model model){
+    public ModelAndView showRegistrationForm(@RequestParam(required = false) String message, Model model){
 
 
         ModelAndView modelAndView = new ModelAndView("register");
