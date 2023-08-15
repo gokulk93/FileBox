@@ -2,6 +2,7 @@ package com.tectot.filebox.entities;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -25,6 +26,12 @@ public class User {
 
     @Column(name = "role")
     private String userRole;
+
+
+    @ManyToOne
+    @JoinColumn(name = "fk_org_id")
+    @EqualsAndHashCode.Exclude
+    private Organisation organisation;
 
 
 }

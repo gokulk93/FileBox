@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FileBox</title>
+</head>
+<body>
+
+<div class="topnav">
+    <a class="active" href="/index">Home</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+</div>
+
+<h2 th:unless="${organisation.id}">Add Organisation</h2>
+<h2 th:if="${organisation.id}">Edit Organisation</h2>
+<form method="post"
+      th:action="${organisation.id} ? @{/organisations/edit/{id}(id=${organisation.id})} : @{/organisations/add}"
+      th:object="${organisation}">
+    <label>ID:</label>
+    <input readonly="readonly" th:field="*{id}" type="text">
+    <br>
+    <label>Name:</label>
+    <input th:field="*{name}" type="text">
+    <br>
+    <input type="submit" value="Save">
+</form>
+<a href="/organisations">Back to List</a>
+
+</body>
+</html>

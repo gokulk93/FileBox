@@ -21,6 +21,9 @@ public class UserDTO {
     @NotEmpty
     private String password;
 
+    @NotEmpty(message = "Organisation should not be empty")
+    private Long organisationId;
+
     @NotEmpty(message = "Role cannot be null")
     @NotEmpty
     private String userRole;
