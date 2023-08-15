@@ -23,7 +23,7 @@ public class DashboardController {
     @Autowired
     private FileService fileService;
 
-    @GetMapping("/")
+    @GetMapping("/dash")
     public String dashboard(Model model) {
 //        TODO Need to handle authorization
         boolean isAdmin = false;

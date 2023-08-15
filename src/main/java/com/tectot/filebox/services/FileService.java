@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
-import software.amazon.awssdk.services.s3.model.S3Object;
+import software.amazon.awssdk.services.s3.model.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,27 +18,31 @@ public class FileService {
     private static Logger logger =  LoggerFactory.getLogger(FileService.class);
 
     public List<S3Object> listFilesFromS3Bucket(S3Client s3Client, String bucketName){
-        List<String> result = new ArrayList<>();
+        try {
+            List<String> result = new ArrayList<>();
 
-        ListObjectsV2Request listRequest = ListObjectsV2Request.builder()
-                .bucket(bucketName)
-                .build();
+            ListObjectsV2Request listRequest = ListObjectsV2Request.builder()
+                    .bucket(bucketName)
+                    .build();
 
-        List<S3Object> objectSummaries = s3Client.listObjectsV2(listRequest).contents();
+            List<S3Object> objectSummaries = s3Client.listObjectsV2(listRequest).contents();
 
 
-        // Process the object summaries
-        for (S3Object objectSummary : objectSummaries) {
-            String key = objectSummary.key(); // The key represents the object (file) name in the bucket
-            long size = objectSummary.size(); // The size of the object in bytes
-            String eTag = objectSummary.eTag(); // The ETag (checksum) of the object
-            // You can access more properties and metadata of the object summary as needed
+            // Process the object summaries
+            for (S3Object objectSummary : objectSummaries) {
+                String key = objectSummary.key(); // The key represents the object (file) name in the bucket
+                long size = objectSummary.size(); // The size of the object in bytes
+                String eTag = objectSummary.eTag(); // The ETag (checksum) of the object
+                // You can access more properties and metadata of the object summary as needed
 
-            // Perform any processing you need on each object (file) in the bucket
-            logger.info(objectSummary.toString());
-            result.add(key);
+                // Perform any processing you need on each object (file) in the bucket
+                logger.info(objectSummary.toString());
+                result.add(key);
+            }
+            return objectSummaries;
+        }catch (NoSuchBucketException e){
+            return new ArrayList<>();
         }
-        return objectSummaries;
     }
 
 

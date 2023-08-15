@@ -22,42 +22,23 @@ public class WebAppController {
 
     private static Logger logger =  LoggerFactory.getLogger(WebAppController.class);
 
-    @Autowired
-    private S3Client s3Client;
-
-    @Autowired
-    private FileService fileService;
-
     @GetMapping(value = { "/", "/index" })
     public String home(){
+        System.out.println("Index");
         return "index";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-//        TODO boolean isAdmin = customUserDetailsService.hasRole("ROLE_ADMIN");
-        boolean isAdmin = false;
-        model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("files", fileService.listFilesFromS3Bucket(s3Client,"mytestbucket"));
-        return "dashboard";
-    }
 
-    @GetMapping("/download/{key}")
-    public String downloadFile(@PathVariable String key, Model model, HttpServletResponse response) {
-        logger.info("Key : "+ key);
-        boolean isAdmin = false;
-        model.addAttribute("isAdmin", isAdmin);
-        fileService.downloadFileFromS3Bucket(s3Client, key, response);
-        return "dashboard";
-    }
 
     @GetMapping("/admin")
     public String showAdminPage() {
+        System.out.println("Admin");
         return "admin";
     }
 
     @GetMapping("/login")
     public String login(){
+        System.out.println("Admin");
         return "login";
     }
 

@@ -18,7 +18,7 @@ public class S3BucketService {
 
 
     // Create a bucket by using a S3Waiter object
-    public static void createBucket(S3Client s3Client, String bucketName) {
+    public  void createBucket(S3Client s3Client, String bucketName) {
 
         try {
             S3Waiter s3Waiter = s3Client.waiter();

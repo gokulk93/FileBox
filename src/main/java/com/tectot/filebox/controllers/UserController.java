@@ -3,6 +3,10 @@ package com.tectot.filebox.controllers;
 import com.tectot.filebox.dtos.UserDTO;
 import com.tectot.filebox.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/users")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 
     private final UserService userService;
@@ -27,15 +33,14 @@ public class UserController {
         this.userService = userService;
     }
 
-    // TODO only admin can access it
     @GetMapping("/register")
     public ModelAndView showRegistrationForm(Model model){
+
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject("userDTO", new UserDTO());
         return modelAndView;
     }
 
-    // TODO only admin can access it
     @PostMapping("/register")
     public String createUser(@ModelAttribute @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
 
