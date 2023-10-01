@@ -11,29 +11,26 @@ import java.io.IOException;
 @RequestMapping(value = "bucketOps")
 public class S3BucketOpsController {
 
-    @Autowired
-    private S3BucketOpsService s3BucketOpsService;
+    private final S3BucketOpsService s3BucketOpsService;
+
+    private final S3Client s3Client;
 
     @Autowired
-    private S3Client s3Client;
+    public S3BucketOpsController(S3BucketOpsService s3BucketOpsService, S3Client s3Client) {
+        this.s3BucketOpsService = s3BucketOpsService;
+        this.s3Client = s3Client;
+    }
 
 
     // Upload a file to S3
     @PostMapping(value = "upload", consumes = "application/json")
     public String uploadFile(@RequestParam(name = "bucketName") String bucketName){
         try {
-            s3BucketOpsService.uploadFile(s3Client, bucketName, "file.txt");
+            s3BucketOpsService.uploadFile(bucketName, "file.txt");
         }catch (IOException e){
             return "some exception occurred";
         }
         return "File uploaded successfully";
-    }
-
-
-    @GetMapping(value = "download", consumes = "application/json")
-    public String downloadFile(@RequestParam(name = "bucketName") String bucketName){
-        s3BucketOpsService.downloadFile(s3Client, bucketName, "file.txt");
-        return "File downloaded successfully";
     }
 
 }

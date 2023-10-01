@@ -44,7 +44,7 @@ public class AwsConfiguration {
     }
 
     @Bean
-    public S3Client getS3ClientLocal(){
+    public S3Client getS3ClientLocal() {
         SdkHttpClient httpClient = UrlConnectionHttpClient.builder()
                 .buildWithDefaults(AttributeMap.empty());
 

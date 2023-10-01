@@ -2,7 +2,7 @@ server:
   port: 5555
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/tectot_dev?currentSchema=filebox
+    url: jdbc:postgresql://localhost:5432/tectot_dev?currentSchema=filebox
     username: postgres
     password: password
     driverClassName: org.postgresql.Driver
@@ -16,6 +16,7 @@ spring:
         format_sql: true
   thymeleaf:
     mode=STRICT
+
 
 logging:
   level:

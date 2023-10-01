@@ -15,8 +15,9 @@ public class CustomUserDetails implements UserDetails {
     private String email;
 
     private String password;
-
     private String role;
+    private String orgName;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
@@ -53,5 +54,13 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getOrgName() {
+        return orgName;
     }
 }

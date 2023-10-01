@@ -21,14 +21,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests(authorize -> authorize
-                        .antMatchers("/","/index").permitAll()
-                        .antMatchers("/resources/**", "/static/**", "/styles/**", "/js/**", "/images/**").permitAll()
-                        .antMatchers("/users/register/**","/admin").hasRole("ADMIN")
+                        .antMatchers("/", "/index", "/header", "**/header","/footer", "**/footer").permitAll()
+                        .antMatchers("/resources/**", "/static/**", "/styles/**", "/scripts/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
                 ).formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/dashboard/dash")
+                        .defaultSuccessUrl("/dashboard")
                         .permitAll()
                 ).logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

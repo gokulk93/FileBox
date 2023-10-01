@@ -3,21 +3,24 @@ package com.tectot.filebox.controllers;
 import com.tectot.filebox.dtos.OrganisationDTO;
 import com.tectot.filebox.services.OrganisationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/organisations")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class OrganisationController {
 
+    private final OrganisationService organisationService;
 
     @Autowired
-    private OrganisationService organisationService;
-
+    public OrganisationController(OrganisationService organisationService) {
+        this.organisationService = organisationService;
+    }
 
     @GetMapping
     public String listOrganisations(Model model) {
@@ -40,8 +43,8 @@ public class OrganisationController {
 
     @GetMapping("/edit/{id}")
     public String editOrganisationForm(@PathVariable Long id, Model model) {
-        Optional<OrganisationDTO> organisationDTO = Optional.ofNullable(organisationService.findOrgById(id));
-        organisationDTO.ifPresent(o -> model.addAttribute("organisation", o));
+        OrganisationDTO organisationDTO = organisationService.findOrgById(id);
+        model.addAttribute("organisation", organisationDTO);
         return "organisation/form";
     }
 

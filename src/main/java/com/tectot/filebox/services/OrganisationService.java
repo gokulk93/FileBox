@@ -2,7 +2,6 @@ package com.tectot.filebox.services;
 
 import com.tectot.filebox.dtos.OrganisationDTO;
 import com.tectot.filebox.entities.Organisation;
-import com.tectot.filebox.entities.User;
 import com.tectot.filebox.repositories.OrganisationRepo;
 import com.tectot.filebox.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.tectot.filebox.utils.ObjectConverter.convertToOrganisation;
@@ -24,6 +22,9 @@ public class OrganisationService {
     private OrganisationRepo organisationRepo;
 
     @Autowired
+    private S3BucketService s3BucketService;
+
+    @Autowired
     private UserRepo userRepo;
 
     public List<OrganisationDTO> findAllOrgs() {
@@ -31,7 +32,7 @@ public class OrganisationService {
         return organisations.stream().map(org -> convertToOrganisationDTO(org)).collect(Collectors.toList());
     }
 
-    public OrganisationDTO findOrgById(Long id){
+    public OrganisationDTO findOrgById(Long id) {
         Optional<Organisation> organisation = organisationRepo.findById(id);
         if (organisation.isPresent()) {
             return convertToOrganisationDTO(organisation.get());
@@ -40,20 +41,21 @@ public class OrganisationService {
     }
 
     @Transactional
-    public void createOrg(OrganisationDTO orgDTO){
+    public void createOrg(OrganisationDTO orgDTO) {
         Organisation org = convertToOrganisation(orgDTO);
+        s3BucketService.createBucket(org.getName());
         organisationRepo.save(org);
     }
 
     @Transactional
-    public void updateOrg(OrganisationDTO orgDTO){
+    public void updateOrg(OrganisationDTO orgDTO) {
         Organisation org = convertToOrganisation(orgDTO);
         organisationRepo.save(org);
     }
 
 
     @Transactional
-    public void deleteOrgById(Long id){
+    public void deleteOrgById(Long id) {
         organisationRepo.deleteById(id);
     }
 }

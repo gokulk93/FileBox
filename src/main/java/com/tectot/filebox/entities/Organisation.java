@@ -1,7 +1,6 @@
 package com.tectot.filebox.entities;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,6 +19,6 @@ public class Organisation {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "organisation",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
 }
